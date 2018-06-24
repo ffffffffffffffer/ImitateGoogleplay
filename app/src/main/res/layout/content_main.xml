@@ -1,21 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<!--
+        [BUG记录]
+        按照平时写的LinearLayout包裹者ViewPager和TabLayout安装在手机上时,
+        tab是不显示title的,在网上搜索得到的解决方法对于我这种情况也解决不了,
+        想到了会不会是布局问题呢?就新建了一个project来测试单独的tab,可以显示
+        出title来,按照排查的方式,发现是由于这个layout_behavior属性导致title,
+        不能正常显示的
+
+        [为什么需要使用这个属性?]
+        因为它的上一层使用了MaterialDesign的CoordinatorLayout布局,它们
+        是组合使用的,并且要配置layout_behavior这个属性
+        CoordinatorLayout -> AppBarLayout -> Toolbar
+                          -> ConstraintLayout
+-->
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.googleplay.MainActivity"
-    tools:showIn="@layout/app_bar_main">
-
-    <TextView
-        android:layout_width="wrap_content"
+    >
+    <!--Tab部分-->
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:tabIndicatorColor="@color/colorPrimary"/>
+    <!--ViewPager部分-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

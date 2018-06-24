@@ -1,17 +1,32 @@
 package com.googleplay;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.googleplay.base.BaseActivity;
+import com.googleplay.core.app.GooglePlay;
+
+import static com.googleplay.R.id.viewpager;
+
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private ViewPager mViewPager;
+    private String[] titles = new String[]{"one", "two", "three", "four", "five"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +43,72 @@ public class MainActivity extends BaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        initData();
+        initViewpager();
+        initTabView();
+    }
+
+    private void initTabView() {
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        // 让TabLayout和ViewPager关联在一起
+        tabLayout.setupWithViewPager(mViewPager);
+        // 自定义tab样式
+        int tabCount = tabLayout.getTabCount();
+        for (int i = 0; i < tabCount; i++) {
+            TabLayout.Tab tabAt = tabLayout.getTabAt(i);
+            tabAt.setCustomView(R.layout.tab_item);
+            if (i == 0) {
+                // 设置第一个tab的TextView是被选择的样式
+                tabAt.getCustomView().findViewById(R.id.tab_text).setSelected(true);//第一个tab被选中
+            }
+            TextView textView = (TextView) tabAt.getCustomView().findViewById(R.id.tab_text);
+            textView.setText(titles[i]);//设置tab上的文字
+        }
+    }
+
+    private void initData() {
+
+    }
+
+    private void initViewpager() {
+        mViewPager = (ViewPager) findViewById(viewpager);
+        mViewPager.setAdapter(new ViewPagerAdapter());
+    }
+
+    private class ViewPagerAdapter extends PagerAdapter {
+
+
+        @Override
+        public int getCount() {
+            return 5;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titles[position];
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            AppCompatTextView textView = new AppCompatTextView(GooglePlay.getApplicationContext());
+            textView.setTextColor(Color.RED);
+            textView.setText(titles[position]);
+
+            container.addView(textView);
+            return textView;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
     }
 
     @Override
