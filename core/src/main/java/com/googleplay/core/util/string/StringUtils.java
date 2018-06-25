@@ -24,10 +24,19 @@ public class StringUtils {
 
     /**
      * 获取字符串数组
+     *
      * @param resId string资源id
      */
     public static String[] getStringArray(int resId) {
         return GooglePlay.getApplicationContext().getResources().getStringArray(resId);
+    }
+
+    /**
+     * 获取Dimen值
+     * @param resId dimen文件中的id
+     */
+    public static float getDimen(int resId) {
+        return GooglePlay.getApplicationContext().getResources().getDimension(resId);
     }
 
     /**

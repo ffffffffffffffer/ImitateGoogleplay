@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:textColor="@color/tab_text_color"
-        android:textSize="16sp"
+        android:textSize="@dimen/tab_item_size_unselected"
         android:textStyle="bold"/>
 
 </RelativeLayout>

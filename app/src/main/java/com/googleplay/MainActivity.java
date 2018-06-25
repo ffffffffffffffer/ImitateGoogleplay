@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -60,6 +61,7 @@ public class MainActivity extends BaseActivity
             if (i == 0) {
                 // 设置第一个tab的TextView是被选择的样式
                 tabAt.getCustomView().findViewById(R.id.tab_text).setSelected(true);//第一个tab被选中
+                setTabTextSize(tabAt, StringUtils.getDimen(R.dimen.tab_item_size_selected));
             }
             TextView textView = (TextView) tabAt.getCustomView().findViewById(R.id.tab_text);
             textView.setText(titles[i]);//设置tab上的文字
@@ -78,13 +80,27 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
+        // 设置选中的标题变大
+        // 要想获取dimen中的sp值,可以设置TypedValue.COMPLEX_UNIT_PX这个单位
+        setTabTextSize(tab, StringUtils.getDimen(R.dimen.tab_item_size_selected));
         // 每次选中时都去重新加载数据
         FragmentList.getFragment(tab.getPosition()).loadMore();
     }
 
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
+        // 设置未选中的标题为默认值
+        setTabTextSize(tab, StringUtils.getDimen(R.dimen.tab_item_size_unselected));
+    }
 
+    /**
+     * 设置Tab标题的大小
+     *
+     * @param dimen dimen值,单位为sp
+     */
+    private void setTabTextSize(TabLayout.Tab tab, float dimen) {
+        ((TextView) tab.getCustomView().findViewById(R.id.tab_text)).setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                dimen);
     }
 
     @Override
