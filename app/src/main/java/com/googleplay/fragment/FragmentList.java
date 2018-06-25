@@ -1,7 +1,8 @@
 package com.googleplay.fragment;
 
-import android.support.v4.app.Fragment;
 import android.util.SparseArray;
+
+import com.googleplay.base.BaseFragment;
 
 /**
  * @author TanJJ
@@ -11,10 +12,10 @@ import android.util.SparseArray;
 
 public class FragmentList {
     // 防止多次加载
-    private static SparseArray<Fragment> mFragmentSparseArray = new SparseArray<>();
+    private static SparseArray<BaseFragment> mFragmentSparseArray = new SparseArray<>();
 
-    public static Fragment getFragment(int position) {
-        Fragment fragment = mFragmentSparseArray.get(position);
+    public static BaseFragment getFragment(int position) {
+        BaseFragment fragment = mFragmentSparseArray.get(position);
         if (fragment == null) {
             switch (position) {
                 case 0:
@@ -33,6 +34,9 @@ public class FragmentList {
                     fragment = new HomeFragment();
                     break;
                 case 5:
+                    fragment = new HomeFragment();
+                    break;
+                case 6:
                     fragment = new HomeFragment();
                     break;
                 default:

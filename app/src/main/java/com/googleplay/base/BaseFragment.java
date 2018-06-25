@@ -29,6 +29,11 @@ public abstract class BaseFragment extends Fragment {
                 public LoadState getLoadDate() {
                     return onStartLoadDate();
                 }
+
+                @Override
+                public View getSuccessView() {
+                    return onSuccessView();
+                }
             };
         }
         return mLoadUI;
@@ -41,5 +46,22 @@ public abstract class BaseFragment extends Fragment {
         mLoadUI.loadMore();
     }
 
+    /**
+     * 获取数据
+     */
+    public void loadMore() {
+        if (mLoadUI != null) {
+            mLoadUI.loadMore();
+        }
+    }
+
+    /**
+     * 加载数据时回调
+     */
     public abstract LoadUI.LoadState onStartLoadDate();
+
+    /**
+     * 加载成功时回调
+     */
+    public abstract View onSuccessView();
 }

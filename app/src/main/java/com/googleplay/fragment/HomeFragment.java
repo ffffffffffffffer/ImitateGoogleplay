@@ -1,7 +1,5 @@
 package com.googleplay.fragment;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +8,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.googleplay.R;
-import com.googleplay.R2;
 import com.googleplay.base.BaseFragment;
+import com.googleplay.core.app.GooglePlay;
 import com.googleplay.fragment.load.LoadUI;
 
 import java.util.Random;
-
-import butterknife.BindView;
-import butterknife.Unbinder;
 
 /**
  * @author TanJJ
@@ -27,19 +22,10 @@ import butterknife.Unbinder;
 
 public class HomeFragment extends BaseFragment {
 
-    @BindView(R2.id.home_list_view)
-    ListView mListView;
-    private Unbinder mBind;
-
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        //initListView();
-    }
-
-    private void initListView() {
-        mListView.setAdapter(new ListAdapter());
+    private View initListView() {
+        ListView listView = new ListView(GooglePlay.getApplicationContext());
+        listView.setAdapter(new ListAdapter());
+        return listView;
     }
 
     @Override
@@ -55,6 +41,11 @@ public class HomeFragment extends BaseFragment {
         int i = random.nextInt(states.length);
         return states[i];
 
+    }
+
+    @Override
+    public View onSuccessView() {
+        return initListView();
     }
 
     private class ListAdapter extends BaseAdapter {
@@ -102,13 +93,5 @@ public class HomeFragment extends BaseFragment {
     private class ViewHolder {
         TextView textView1;
         TextView textView2;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (mBind != null) {
-            mBind.unbind();
-        }
     }
 }

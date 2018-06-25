@@ -15,16 +15,17 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.googleplay.base.BaseActivity;
+import com.googleplay.core.util.string.StringUtils;
 import com.googleplay.fragment.FragmentList;
 
 import static com.googleplay.R.id.viewpager;
 
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, TabLayout.OnTabSelectedListener {
 
     private ViewPager mViewPager;
-    private String[] titles = new String[]{"one", "two", "three", "four", "five"};
+    private String[] titles = StringUtils.getStringArray(R.array.pager_titles);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class MainActivity extends BaseActivity
             TextView textView = (TextView) tabAt.getCustomView().findViewById(R.id.tab_text);
             textView.setText(titles[i]);//设置tab上的文字
         }
+        tabLayout.addOnTabSelectedListener(this);
     }
 
     private void initData() {
@@ -72,6 +74,22 @@ public class MainActivity extends BaseActivity
     private void initViewpager() {
         mViewPager = (ViewPager) findViewById(viewpager);
         mViewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        // 每次选中时都去重新加载数据
+        FragmentList.getFragment(tab.getPosition()).loadMore();
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
     }
 
     private class ViewPagerAdapter extends FragmentStatePagerAdapter {

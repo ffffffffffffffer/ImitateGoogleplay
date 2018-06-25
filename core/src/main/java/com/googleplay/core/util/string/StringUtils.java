@@ -23,6 +23,14 @@ public class StringUtils {
     }
 
     /**
+     * 获取字符串数组
+     * @param resId string资源id
+     */
+    public static String[] getStringArray(int resId) {
+        return GooglePlay.getApplicationContext().getResources().getStringArray(resId);
+    }
+
+    /**
      * 获取resources资源对象
      */
     public static Resources getResources() {

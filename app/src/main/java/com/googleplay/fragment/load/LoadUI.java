@@ -2,6 +2,7 @@ package com.googleplay.fragment.load;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -21,6 +22,7 @@ public abstract class LoadUI extends RelativeLayout {
     private ImageView mEmptyImageView;
     private ImageView mErrorImageView;
     private ProgressBar mLoadProgressBar;
+    private View mSuccessView;
     // 设置默认状态
     private int mLoadState = STATE_NONE;
     // 定义View的状态
@@ -96,6 +98,14 @@ public abstract class LoadUI extends RelativeLayout {
         mLoadProgressBar.setVisibility(mLoadState == STATE_NONE || mLoadState == STATE_LOADING ? VISIBLE : GONE);
         mErrorImageView.setVisibility(mLoadState == STATE_ERROR ? VISIBLE : GONE);
         mEmptyImageView.setVisibility(mLoadState == STATE_EMPTY ? VISIBLE : GONE);
+        // 添加成功加载View
+        if (mSuccessView == null && mLoadState == STATE_SUCCESS) {
+            mSuccessView = getSuccessView();
+            addView(mSuccessView);
+        }
+        if (mSuccessView != null) {
+            mSuccessView.setVisibility(mLoadState == STATE_SUCCESS ? VISIBLE : GONE);
+        }
     }
 
     /**
@@ -144,5 +154,10 @@ public abstract class LoadUI extends RelativeLayout {
     }
 
     public abstract LoadState getLoadDate();
+
+    /**
+     * 加载成功的View要求子类提供
+     */
+    public abstract View getSuccessView();
 
 }
