@@ -1,23 +1,21 @@
 package com.googleplay;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.googleplay.base.BaseActivity;
-import com.googleplay.core.app.GooglePlay;
+import com.googleplay.fragment.FragmentList;
 
 import static com.googleplay.R.id.viewpager;
 
@@ -73,42 +71,34 @@ public class MainActivity extends BaseActivity
 
     private void initViewpager() {
         mViewPager = (ViewPager) findViewById(viewpager);
-        mViewPager.setAdapter(new ViewPagerAdapter());
+        mViewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
     }
 
-    private class ViewPagerAdapter extends PagerAdapter {
+    private class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
+        public ViewPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
 
         @Override
         public int getCount() {
-            return 5;
+            return titles.length;
         }
 
         @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
+        public Fragment getItem(int position) {
+            return FragmentList.getFragment(position);
         }
-
 
         @Override
         public CharSequence getPageTitle(int position) {
             return titles[position];
         }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            AppCompatTextView textView = new AppCompatTextView(GooglePlay.getApplicationContext());
-            textView.setTextColor(Color.RED);
-            textView.setText(titles[position]);
-
-            container.addView(textView);
-            return textView;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View) object);
-        }
+        /*
+            TODO: 2018/6/24
+            注意,使用ViewPager + Fragment时,不能继承多余的方法,例如上面实现FragmentStatePagerAdapter,就不能继承
+            isViewFromObject()/instantiateItem()/destroyItem()这些属于PagerAdapter的方法,否则Fragment不显示
+         */
     }
 
     @Override
