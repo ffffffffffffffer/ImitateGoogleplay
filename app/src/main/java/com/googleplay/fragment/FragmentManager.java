@@ -10,7 +10,7 @@ import com.googleplay.base.BaseFragment;
  * @des Fragment管理
  */
 
-public class FragmentList {
+public class FragmentManager {
     // 防止多次加载
     private static SparseArray<BaseFragment> mFragmentSparseArray = new SparseArray<>();
 

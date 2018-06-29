@@ -3,15 +3,17 @@ package com.googleplay.fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.googleplay.R;
 import com.googleplay.base.BaseFragment;
+import com.googleplay.core.adapter.SuperAdapter;
 import com.googleplay.core.app.GooglePlay;
 import com.googleplay.fragment.load.LoadUI;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -21,11 +23,18 @@ import java.util.Random;
  */
 
 public class HomeFragment extends BaseFragment {
+    private List<String> contents = new ArrayList<>();
 
     private View initListView() {
         ListView listView = new ListView(GooglePlay.getApplicationContext());
-        listView.setAdapter(new ListAdapter());
+        listView.setAdapter(new ListAdapter(contents));
         return listView;
+    }
+
+    private void imitateData() {
+        for (int i = 0; i < 60; i++) {
+            contents.add("content: " + i);
+        }
     }
 
     @Override
@@ -45,26 +54,15 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public View onSuccessView() {
+        // 模拟假数据
+        imitateData();
         return initListView();
     }
 
-    private class ListAdapter extends BaseAdapter {
-        private String[] contents = new String[]{"content: 1", "content: 2"};
+    private class ListAdapter extends SuperAdapter<String> {
 
-        @Override
-        public int getCount() {
-            return contents.length * 100;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
+        private ListAdapter(List<String> dates) {
+            super(dates);
         }
 
         @Override
@@ -77,21 +75,18 @@ public class HomeFragment extends BaseFragment {
                 // 创建ViewHolder做缓存
                 viewHolder = new ViewHolder();
                 viewHolder.textView1 = (TextView) view.findViewById(R.id.text1);
-                viewHolder.textView2 = (TextView) view.findViewById(R.id.text2);
                 // 设置ViewHolder为view的tag
                 view.setTag(viewHolder);
             } else {
                 view = convertView;
                 viewHolder = (ViewHolder) view.getTag();
             }
-            viewHolder.textView1.setText(contents[0]);
-            viewHolder.textView2.setText(contents[1]);
+            viewHolder.textView1.setText(contents.get(position));
             return view;
         }
     }
 
     private class ViewHolder {
         TextView textView1;
-        TextView textView2;
     }
 }

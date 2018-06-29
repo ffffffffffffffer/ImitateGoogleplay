@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -17,7 +16,7 @@ import android.widget.TextView;
 
 import com.googleplay.base.BaseActivity;
 import com.googleplay.core.util.string.StringUtils;
-import com.googleplay.fragment.FragmentList;
+import com.googleplay.fragment.FragmentManager;
 
 import static com.googleplay.R.id.viewpager;
 
@@ -84,7 +83,7 @@ public class MainActivity extends BaseActivity
         // 要想获取dimen中的sp值,可以设置TypedValue.COMPLEX_UNIT_PX这个单位
         setTabTextSize(tab, StringUtils.getDimen(R.dimen.tab_item_size_selected));
         // 每次选中时都去重新加载数据
-        FragmentList.getFragment(tab.getPosition()).loadMore();
+        FragmentManager.getFragment(tab.getPosition()).loadMore();
     }
 
     @Override
@@ -110,7 +109,7 @@ public class MainActivity extends BaseActivity
 
     private class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
-        public ViewPagerAdapter(FragmentManager fm) {
+        public ViewPagerAdapter(android.support.v4.app.FragmentManager fm) {
             super(fm);
         }
 
@@ -121,7 +120,7 @@ public class MainActivity extends BaseActivity
 
         @Override
         public Fragment getItem(int position) {
-            return FragmentList.getFragment(position);
+            return FragmentManager.getFragment(position);
         }
 
         @Override
