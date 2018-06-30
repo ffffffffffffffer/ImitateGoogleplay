@@ -4,6 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.googleplay.core.holder.BaseHolder;
 import java.util.List;
 
 /**
@@ -44,7 +45,28 @@ public abstract class SuperAdapter<T> extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+    @SuppressWarnings("unchecked")
+    public View getView(int position, android.view.View convertView, ViewGroup parent) {
+        BaseHolder<T> viewHolder;
+        View view;
+        if (convertView == null) {
+            // 获取Holder
+            viewHolder = getItemHolder();
+            // 通过Holder获取View
+            view = viewHolder.getRootView();
+            // 设置ViewHolder为view的tag
+            view.setTag(viewHolder);
+        } else {
+            view = convertView;
+            viewHolder = (BaseHolder) view.getTag();
+        }
+        // 传递数据给Holder的实现类
+        viewHolder.setData(mDates.get(position));
+        return view;
     }
+
+    /**
+     * 要求实现类提供实现BaseHolder的类
+     */
+    public abstract BaseHolder getItemHolder();
 }

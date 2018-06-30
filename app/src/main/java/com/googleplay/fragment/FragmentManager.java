@@ -3,6 +3,7 @@ package com.googleplay.fragment;
 import android.util.SparseArray;
 
 import com.googleplay.base.BaseFragment;
+import com.googleplay.fragment.home.HomeFragment;
 
 /**
  * @author TanJJ

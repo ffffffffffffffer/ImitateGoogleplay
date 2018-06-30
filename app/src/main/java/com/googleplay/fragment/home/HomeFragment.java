@@ -1,15 +1,12 @@
-package com.googleplay.fragment;
+package com.googleplay.fragment.home;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.googleplay.R;
 import com.googleplay.base.BaseFragment;
 import com.googleplay.core.adapter.SuperAdapter;
 import com.googleplay.core.app.GooglePlay;
+import com.googleplay.core.holder.BaseHolder;
 import com.googleplay.fragment.load.LoadUI;
 
 import java.util.ArrayList;
@@ -66,27 +63,8 @@ public class HomeFragment extends BaseFragment {
         }
 
         @Override
-        public View getView(int position, android.view.View convertView, ViewGroup parent) {
-            ViewHolder viewHolder;
-            View view;
-            if (convertView == null) {
-                view = LayoutInflater.from(getContext()).inflate(R.layout
-                        .list_view_item_home, parent, false);
-                // 创建ViewHolder做缓存
-                viewHolder = new ViewHolder();
-                viewHolder.textView1 = (TextView) view.findViewById(R.id.text1);
-                // 设置ViewHolder为view的tag
-                view.setTag(viewHolder);
-            } else {
-                view = convertView;
-                viewHolder = (ViewHolder) view.getTag();
-            }
-            viewHolder.textView1.setText(contents.get(position));
-            return view;
+        public BaseHolder getItemHolder() {
+            return new AppItemHolder();
         }
-    }
-
-    private class ViewHolder {
-        TextView textView1;
     }
 }
