@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 
 import com.googleplay.R;
 import com.googleplay.core.app.GooglePlay;
+import com.googleplay.core.manager.ThreadPoolManager;
 import com.googleplay.core.util.string.StringUtils;
 
 /**
@@ -121,7 +122,9 @@ public abstract class LoadUI extends RelativeLayout {
         mLoadState = STATE_LOADING;
 
         // 开启子线程操作加载
-        new Thread(new LoadDataTask()).start();
+//        new Thread(new LoadDataTask()).start();
+        // 使用线程池方式来创建线程
+        ThreadPoolManager.getLongPool().execute(new LoadDataTask());
     }
 
     private class LoadDataTask implements Runnable {
