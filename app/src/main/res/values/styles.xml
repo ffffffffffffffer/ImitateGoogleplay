@@ -17,4 +17,10 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
+    <!--定制RatingBar样式-->
+    <style name="CustomRatingBar" parent="Base.Widget.AppCompat.RatingBar.Small">
+        <item name="android:progressDrawable">@drawable/ratingbar_small</item>
+        <item name="android:indeterminateDrawable">@drawable/ratingbar_small</item>
+    </style>
+
 </resources>

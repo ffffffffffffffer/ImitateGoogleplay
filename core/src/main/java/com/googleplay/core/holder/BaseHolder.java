@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.googleplay.core.app.GooglePlay;
 
+import butterknife.ButterKnife;
 /**
  * @author TanJJ
  * @time 2018/6/29 19:52
@@ -20,6 +21,10 @@ public abstract class BaseHolder<T> {
     public BaseHolder() {
         // 在创建Holder时就要获取View
         mView = checkView();
+        if (mView != null) {
+            // 绑定View时,要使用两个参数的,不然会绑定不到
+            ButterKnife.bind(this, mView);
+        }
     }
 
     private View checkView() {

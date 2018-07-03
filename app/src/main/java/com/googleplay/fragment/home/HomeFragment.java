@@ -1,17 +1,26 @@
 package com.googleplay.fragment.home;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
 import com.googleplay.base.BaseFragment;
+import com.googleplay.constant.Constant;
 import com.googleplay.core.adapter.SuperAdapter;
 import com.googleplay.core.app.GooglePlay;
 import com.googleplay.core.holder.BaseHolder;
+import com.googleplay.fragment.home.bean.AppInfo;
+import com.googleplay.fragment.home.bean.HomeBean;
 import com.googleplay.fragment.load.LoadUI;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
-import java.util.Random;
+
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * @author TanJJ
@@ -20,20 +29,21 @@ import java.util.Random;
  */
 
 public class HomeFragment extends BaseFragment {
-    private List<String> contents = new ArrayList<>();
+
+    // ListView数据
+    // 轮播图数据
+    private List<String> mPictures;
+    private List<AppInfo> mAppInfo;
 
     private View initListView() {
         ListView listView = new ListView(GooglePlay.getApplicationContext());
-        listView.setAdapter(new ListAdapter(contents));
+        // TODO: 2018/7/3 这里写死了,不灵活,以后有时间看看怎么优化.
+        listView.setBackgroundColor(Color.parseColor("#15000000"));
+        listView.setAdapter(new ListAdapter(mAppInfo));
         return listView;
     }
 
-    private void imitateData() {
-        for (int i = 0; i < 60; i++) {
-            contents.add("content: " + i);
-        }
-    }
-
+    // 子线程执行
     @Override
     public LoadUI.LoadState onStartLoadDate() {
         try {
@@ -41,24 +51,48 @@ public class HomeFragment extends BaseFragment {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        LoadUI.LoadState[] states = new LoadUI.LoadState[]{LoadUI.LoadState.SUCCESS, LoadUI.LoadState.ERROR, LoadUI
-                .LoadState.EMPTY};
-        Random random = new Random();
-        int i = random.nextInt(states.length);
-        return states[i];
+        // 网络请求
+        // 使用OkHttp
+        OkHttpClient okHttpClient = new OkHttpClient();
+        // 定义请求对象
+        Request request = new Request.Builder()
+                .url(Constant.HOME + "0")
+                .build();
+        Call call = okHttpClient.newCall(request);
+        try {
+            // 请求网络
+            Response execute = call.execute();
+            if (execute.isSuccessful()) {
+                String responseData = execute.body().string();
+                // 解析json数据
+                HomeBean homeBean = new Gson().fromJson(responseData, HomeBean.class);
+                // 判断解析出来的bean对象是否有数据
+                if (homeBean == null || homeBean.list.size() == 0) {
+                    return LoadUI.LoadState.EMPTY;
+                }
 
+                // 获取ListView数据
+                mAppInfo = homeBean.list;
+                // 获取轮播图数据
+                mPictures = homeBean.picture;
+                return LoadUI.LoadState.SUCCESS;
+            } else {
+                return LoadUI.LoadState.ERROR;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return LoadUI.LoadState.ERROR;
+        }
     }
 
     @Override
     public View onSuccessView() {
-        // 模拟假数据
-        imitateData();
         return initListView();
     }
 
-    private class ListAdapter extends SuperAdapter<String> {
+    private class ListAdapter extends SuperAdapter<AppInfo> {
 
-        private ListAdapter(List<String> dates) {
+        private ListAdapter(List<AppInfo> dates) {
             super(dates);
         }
 
