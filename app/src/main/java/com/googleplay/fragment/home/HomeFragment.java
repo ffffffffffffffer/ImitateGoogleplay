@@ -4,8 +4,6 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.ListView;
 
-import com.blankj.utilcode.util.StringUtils;
-import com.google.gson.Gson;
 import com.googleplay.base.BaseFragment;
 import com.googleplay.core.Constant;
 import com.googleplay.core.adapter.SuperAdapter;
@@ -51,23 +49,16 @@ public class HomeFragment extends BaseFragment {
         // 网络请求
         try {
             // 请求网络
-            String responseData = OkHttpHelper.execute(Constant.HOME + "0");
-            if (!StringUtils.isEmpty(responseData)) {
-                // 解析json数据
-                HomeBean homeBean = new Gson().fromJson(responseData, HomeBean.class);
-                // 判断解析出来的bean对象是否有数据
-                if (homeBean == null || homeBean.list.size() == 0) {
-                    return LoadUI.LoadState.EMPTY;
-                }
-
-                // 获取ListView数据
-                mAppInfo = homeBean.list;
-                // 获取轮播图数据
-                mPictures = homeBean.picture;
-                return LoadUI.LoadState.SUCCESS;
-            } else {
-                return LoadUI.LoadState.ERROR;
+            HomeBean homeBean = OkHttpHelper.execute(Constant.HOME + "0", HomeBean.class);
+            // 判断解析出来的bean对象是否有数据
+            if (homeBean == null || homeBean.list.size() == 0) {
+                return LoadUI.LoadState.EMPTY;
             }
+            // 获取ListView数据
+            mAppInfo = homeBean.list;
+            // 获取轮播图数据
+            mPictures = homeBean.picture;
+            return LoadUI.LoadState.SUCCESS;
         } catch (IOException e) {
             e.printStackTrace();
             return LoadUI.LoadState.ERROR;
@@ -107,9 +98,8 @@ public class HomeFragment extends BaseFragment {
             // 休眠1.5秒
             Thread.sleep(1500);
             // 开始网络请求
-            String execute = OkHttpHelper.execute(Constant.HOME + index);
             // 解析json数据
-            HomeBean homeBean = new Gson().fromJson(execute, HomeBean.class);
+            HomeBean homeBean = OkHttpHelper.execute(Constant.HOME + index, HomeBean.class);
             // 返回appInfo数据
             return homeBean.list;
         } catch (IOException | InterruptedException e) {
