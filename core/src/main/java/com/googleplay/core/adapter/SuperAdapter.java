@@ -32,7 +32,12 @@ public abstract class SuperAdapter<T> extends BaseAdapter {
     @Override
     public int getCount() {
         if (mDates != null) {
-            return mDates.size();
+            if (isLoadMore()) {
+                return mDates.size() + 1;// 这里还要
+
+            } else {
+                return mDates.size();
+            }
         } else {
             return 0;
         }
@@ -69,8 +74,13 @@ public abstract class SuperAdapter<T> extends BaseAdapter {
         if (position != getCount() - 1) {
             return LOAD_NORMAL;
         } else {
-            // 如果是最后一个就使用加载更多的那个ItemType
-            return LOAD_MORE;
+            // 并且实现类是实现了加载更多的方法才返回对应的itemType
+            if (isLoadMore()) {
+                // 如果是最后一个就使用加载更多的那个ItemType
+                return LOAD_MORE;
+            } else {
+                return LOAD_NORMAL;
+            }
         }
     }
 
@@ -124,12 +134,14 @@ public abstract class SuperAdapter<T> extends BaseAdapter {
             int state;
             List<T> data = null;
             try {
+                // 获取要加载的数据,数据来源于实现类
                 data = onLoadMore();
                 // 根据数据改变state
                 if (data == null || data.size() == 0) {
                     state = LoadMoreHolder.LOAD_MORE_ERROR;
                 }
                 // 翻页--》加载一页的数据量--> 20
+                // 当服务器按照约定返回时,返回的数据数量必定等于或大于20
                 if (data.size() >= Constant.PAGER_SIZE) {
                     // 20-->服务器还有数据---> UI操作-- 加载更多holder的显示--->加载更多
                     state = LoadMoreHolder.LOADING;
@@ -152,6 +164,14 @@ public abstract class SuperAdapter<T> extends BaseAdapter {
                 public void run() {
                     // 加载更多holder的显示
                     mLoadMoreHolder.setData(currentState);
+                    // 设置点击事件
+                    mLoadMoreHolder.setOnClickRetryListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // 重新加载
+                            performLoadMore();
+                        }
+                    });
                     // 这里需要在主线程中操作
                     if (currentData != null) {
                         // 更新集合中的数据

@@ -4,11 +4,13 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.ListView;
 
+import com.blankj.utilcode.util.StringUtils;
 import com.google.gson.Gson;
 import com.googleplay.base.BaseFragment;
 import com.googleplay.core.Constant;
 import com.googleplay.core.adapter.SuperAdapter;
 import com.googleplay.core.app.GooglePlay;
+import com.googleplay.core.helper.okhttp.OkHttpHelper;
 import com.googleplay.core.holder.BaseHolder;
 import com.googleplay.fragment.home.bean.AppInfo;
 import com.googleplay.fragment.home.bean.HomeBean;
@@ -16,11 +18,6 @@ import com.googleplay.fragment.load.LoadUI;
 
 import java.io.IOException;
 import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * @author TanJJ
@@ -52,18 +49,10 @@ public class HomeFragment extends BaseFragment {
             e.printStackTrace();
         }
         // 网络请求
-        // 使用OkHttp
-        OkHttpClient okHttpClient = new OkHttpClient();
-        // 定义请求对象
-        Request request = new Request.Builder()
-                .url(Constant.HOME + "0")
-                .build();
-        Call call = okHttpClient.newCall(request);
         try {
             // 请求网络
-            Response execute = call.execute();
-            if (execute.isSuccessful()) {
-                String responseData = execute.body().string();
+            String responseData = OkHttpHelper.execute(Constant.HOME + "0");
+            if (!StringUtils.isEmpty(responseData)) {
                 // 解析json数据
                 HomeBean homeBean = new Gson().fromJson(responseData, HomeBean.class);
                 // 判断解析出来的bean对象是否有数据
@@ -105,5 +94,27 @@ public class HomeFragment extends BaseFragment {
         public boolean isLoadMore() {
             return true;
         }
+
+        @Override
+        protected List<AppInfo> onLoadMore() throws Exception {
+            return loadMore(mAppInfo.size());
+        }
+    }
+
+    private List<AppInfo> loadMore(int index) {
+        // 请求网络
+        try {
+            // 休眠1.5秒
+            Thread.sleep(1500);
+            // 开始网络请求
+            String execute = OkHttpHelper.execute(Constant.HOME + index);
+            // 解析json数据
+            HomeBean homeBean = new Gson().fromJson(execute, HomeBean.class);
+            // 返回appInfo数据
+            return homeBean.list;
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

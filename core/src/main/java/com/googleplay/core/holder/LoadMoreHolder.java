@@ -52,4 +52,11 @@ public class LoadMoreHolder extends BaseHolder<Integer> {
                 break;
         }
     }
+
+    /**
+     * 点击重试的监听 ----> 将点击事件推到外面来实现
+     */
+    public void setOnClickRetryListener(View.OnClickListener listener) {
+        mLoadMoreError.setOnClickListener(listener);
+    }
 }
