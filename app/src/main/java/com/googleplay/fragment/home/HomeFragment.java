@@ -100,5 +100,10 @@ public class HomeFragment extends BaseFragment {
         public BaseHolder getItemHolder() {
             return new AppItemHolder();
         }
+
+        @Override
+        public boolean isLoadMore() {
+            return true;
+        }
     }
 }

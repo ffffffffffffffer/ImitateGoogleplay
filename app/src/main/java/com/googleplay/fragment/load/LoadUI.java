@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.googleplay.R;
 import com.googleplay.core.app.GooglePlay;
 import com.googleplay.core.manager.ThreadPoolManager;
@@ -57,6 +58,14 @@ public abstract class LoadUI extends RelativeLayout {
         if (mErrorImageView == null) {
             mErrorImageView = new ImageView(getContext());
             mErrorImageView.setImageResource(R.drawable.ic_error_page);
+            // 点击重试
+            mErrorImageView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    loadMore();
+                    ToastUtils.showShort(StringUtils.getString(R.string.click_retry));
+                }
+            });
         }
         // 加载中的View
         if (mLoadProgressBar == null) {
