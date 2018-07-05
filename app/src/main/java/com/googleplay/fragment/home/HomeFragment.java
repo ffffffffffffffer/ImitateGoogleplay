@@ -6,7 +6,7 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.googleplay.base.BaseFragment;
-import com.googleplay.constant.Constant;
+import com.googleplay.core.Constant;
 import com.googleplay.core.adapter.SuperAdapter;
 import com.googleplay.core.app.GooglePlay;
 import com.googleplay.core.holder.BaseHolder;

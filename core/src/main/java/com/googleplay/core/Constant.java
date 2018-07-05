@@ -1,4 +1,4 @@
-package com.googleplay.constant;
+package com.googleplay.core;
 
 /**
  * @author TanJJ
@@ -10,4 +10,6 @@ public class Constant {
     private static final String HOST = "http://192.168.43.156/GooglePlayServer/";
     public static final String HOME = HOST.concat("home?index=");
     public static final String IMAGE = HOST.concat("image?name=");
+    // 加载更多的页面数量
+    public static final int PAGER_SIZE = 20;
 }
