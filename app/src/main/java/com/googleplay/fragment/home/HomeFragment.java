@@ -34,6 +34,11 @@ public class HomeFragment extends BaseFragment {
         // TODO: 2018/7/3 这里写死了,不灵活,以后有时间看看怎么优化.
         listView.setBackgroundColor(Color.parseColor("#15000000"));
         listView.setAdapter(new ListAdapter(mAppInfo));
+        // 轮播图Holder
+        PickHolder pickHolder = new PickHolder();
+        View headView = pickHolder.getRootView();
+        pickHolder.setData(mPictures);
+        listView.addHeaderView(headView);
         return listView;
     }
 
