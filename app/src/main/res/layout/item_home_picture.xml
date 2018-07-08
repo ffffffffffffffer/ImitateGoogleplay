@@ -4,10 +4,11 @@
                 android:layout_height="match_parent">
 
     <!--轮播图-->
+    <!--ViewPager作为ListView的Head不能设置高度为match_parent,要设置具体值才有效果-->
     <android.support.v4.view.ViewPager
         android:id="@+id/item_home_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="135dp"/>
     <!--指针容器-->
     <LinearLayout
         android:id="@+id/item_home_picture_container_indicator"
