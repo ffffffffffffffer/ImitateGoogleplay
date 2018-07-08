@@ -4,6 +4,7 @@ import android.util.SparseArray;
 
 import com.googleplay.base.BaseFragment;
 import com.googleplay.fragment.app.AppFragment;
+import com.googleplay.fragment.game.GameFragment;
 import com.googleplay.fragment.home.HomeFragment;
 
 /**
@@ -27,7 +28,7 @@ public class FragmentManager {
                     fragment = new AppFragment();
                     break;
                 case 2:
-                    fragment = new HomeFragment();
+                    fragment = new GameFragment();
                     break;
                 case 3:
                     fragment = new HomeFragment();

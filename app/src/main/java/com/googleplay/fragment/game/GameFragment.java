@@ -1,4 +1,4 @@
-package com.googleplay.fragment.app;
+package com.googleplay.fragment.game;
 
 import android.graphics.Color;
 import android.view.View;
@@ -16,11 +16,11 @@ import java.util.List;
 
 /**
  * @author TanJJ
- * @time 2018/7/8 11:01
- * @des 应用页面
+ * @time 2018/7/8 11:26
+ * @des 游戏页面
  */
 
-public class AppFragment extends BaseFragment {
+public class GameFragment extends BaseFragment {
 
     private List<AppInfo> mAppList;
 
@@ -28,7 +28,7 @@ public class AppFragment extends BaseFragment {
     public LoadUI.LoadState onStartLoadDate() {
         // 请求网络
         try {
-            List<AppInfo> appBean = new AppProtocol().execute(0, "app");
+            List<AppInfo> appBean = new GameProtocol().execute(0, "game");
             if (appBean == null || appBean.size() == 0) {
                 return LoadUI.LoadState.EMPTY;
             }
@@ -61,7 +61,7 @@ public class AppFragment extends BaseFragment {
 
         @Override
         public BaseHolder getItemHolder() {
-            return new AppHolder();
+            return new GameHolder();
         }
 
         @Override
@@ -82,7 +82,7 @@ public class AppFragment extends BaseFragment {
             Thread.sleep(1500);
             // 开始网络请求
             // 解析json数据
-            List<AppInfo> appBean = new AppProtocol().execute(index, "app");
+            List<AppInfo> appBean = new GameProtocol().execute(index, "game");
             // 返回appInfo数据
             return appBean;
         } catch (IOException | InterruptedException e) {
