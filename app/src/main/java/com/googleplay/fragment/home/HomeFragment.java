@@ -5,13 +5,12 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.googleplay.base.BaseFragment;
-import com.googleplay.core.Constant;
 import com.googleplay.core.adapter.SuperAdapter;
 import com.googleplay.core.app.GooglePlay;
-import com.googleplay.core.helper.okhttp.OkHttpHelper;
 import com.googleplay.core.holder.BaseHolder;
 import com.googleplay.fragment.home.bean.AppInfo;
 import com.googleplay.fragment.home.bean.HomeBean;
+import com.googleplay.fragment.home.protocol.HomeProtocol;
 import com.googleplay.fragment.load.LoadUI;
 
 import java.io.IOException;
@@ -49,7 +48,7 @@ public class HomeFragment extends BaseFragment {
         // 网络请求
         try {
             // 请求网络
-            HomeBean homeBean = OkHttpHelper.execute(Constant.HOME + "0", HomeBean.class);
+            HomeBean homeBean = new HomeProtocol().execute(0);
             // 判断解析出来的bean对象是否有数据
             if (homeBean == null || homeBean.list.size() == 0) {
                 return LoadUI.LoadState.EMPTY;
@@ -99,7 +98,7 @@ public class HomeFragment extends BaseFragment {
             Thread.sleep(1500);
             // 开始网络请求
             // 解析json数据
-            HomeBean homeBean = OkHttpHelper.execute(Constant.HOME + index, HomeBean.class);
+            HomeBean homeBean = new HomeProtocol().execute(index);
             // 返回appInfo数据
             return homeBean.list;
         } catch (IOException | InterruptedException e) {

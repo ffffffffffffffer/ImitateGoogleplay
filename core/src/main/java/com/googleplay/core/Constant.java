@@ -7,7 +7,7 @@ package com.googleplay.core;
 
 public class Constant {
     // http://10.0.2.2:8080/GooglePlayServer/home?index=0
-    private static final String HOST = "http://192.168.43.156/GooglePlayServer/";
+    public static final String HOST = "http://192.168.43.156/GooglePlayServer/";
     public static final String HOME = HOST.concat("home?index=");
     public static final String IMAGE = HOST.concat("image?name=");
     // 加载更多的页面数量
