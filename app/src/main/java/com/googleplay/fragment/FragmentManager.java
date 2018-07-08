@@ -3,6 +3,7 @@ package com.googleplay.fragment;
 import android.util.SparseArray;
 
 import com.googleplay.base.BaseFragment;
+import com.googleplay.fragment.app.AppFragment;
 import com.googleplay.fragment.home.HomeFragment;
 
 /**
@@ -23,7 +24,7 @@ public class FragmentManager {
                     fragment = new HomeFragment();
                     break;
                 case 1:
-                    fragment = new HomeFragment();
+                    fragment = new AppFragment();
                     break;
                 case 2:
                     fragment = new HomeFragment();
