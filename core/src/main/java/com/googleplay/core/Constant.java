@@ -12,4 +12,6 @@ public class Constant {
     public static final String IMAGE = HOST.concat("image?name=");
     // 加载更多的页面数量
     public static final int PAGER_SIZE = 20;
+    // 文件储存时间戳时间,30秒
+    public static final long DELAYED_TIME = 30 * 1000;
 }

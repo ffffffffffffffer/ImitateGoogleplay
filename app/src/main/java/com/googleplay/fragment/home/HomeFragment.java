@@ -48,7 +48,7 @@ public class HomeFragment extends BaseFragment {
         // 网络请求
         try {
             // 请求网络
-            HomeBean homeBean = new HomeProtocol().execute(0);
+            HomeBean homeBean = new HomeProtocol().execute(0, "home");
             // 判断解析出来的bean对象是否有数据
             if (homeBean == null || homeBean.list.size() == 0) {
                 return LoadUI.LoadState.EMPTY;
@@ -98,7 +98,7 @@ public class HomeFragment extends BaseFragment {
             Thread.sleep(1500);
             // 开始网络请求
             // 解析json数据
-            HomeBean homeBean = new HomeProtocol().execute(index);
+            HomeBean homeBean = new HomeProtocol().execute(index, "home");
             // 返回appInfo数据
             return homeBean.list;
         } catch (IOException | InterruptedException e) {
