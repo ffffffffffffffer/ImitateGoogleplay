@@ -85,6 +85,7 @@ public class CategoryFragment extends BaseFragment {
         public View getView(int position, android.view.View convertView, ViewGroup parent) {
             BaseHolder viewHolder;
             View view;
+            // 最原始的方法
 //            // 获取当前position的类型
 //            // 获取Holder
 //            viewHolder = getItemHolder(position);
