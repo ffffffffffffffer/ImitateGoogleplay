@@ -60,7 +60,7 @@ public class AppFragment extends BaseFragment {
         }
 
         @Override
-        public BaseHolder getItemHolder() {
+        public BaseHolder getItemHolder(int position) {
             return new AppHolder();
         }
 

@@ -94,7 +94,7 @@ public abstract class SuperAdapter<T> extends BaseAdapter {
         if (convertView == null) {
             if (itemViewType == LOAD_NORMAL) {
                 // 获取Holder
-                viewHolder = getItemHolder();
+                viewHolder = getItemHolder(position);
             } else if (itemViewType == LOAD_MORE) {
                 // 获取加载更多的Holder
                 viewHolder = getLoadMore();
@@ -197,7 +197,7 @@ public abstract class SuperAdapter<T> extends BaseAdapter {
     /**
      * 要求实现类提供实现BaseHolder的类
      */
-    public abstract BaseHolder getItemHolder();
+    public abstract BaseHolder getItemHolder(int position);
 
     /**
      * 加载更多的Holder

@@ -12,6 +12,7 @@ public class Constant {
     public static final String APP = HOST.concat("app?index=");
     public static final String GAME = HOST.concat("game?index=");
     public static final String SUBJECT = HOST.concat("subject?index=");
+    public static final String CATEGORY = HOST.concat("category?index=");
     public static final String IMAGE = HOST.concat("image?name=");
     // 加载更多的页面数量
     public static final int PAGER_SIZE = 20;
