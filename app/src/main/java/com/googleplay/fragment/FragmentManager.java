@@ -7,6 +7,7 @@ import com.googleplay.fragment.app.AppFragment;
 import com.googleplay.fragment.category.CategoryFragment;
 import com.googleplay.fragment.game.GameFragment;
 import com.googleplay.fragment.home.HomeFragment;
+import com.googleplay.fragment.recommend.RecommendFragment;
 import com.googleplay.fragment.subject.SubjectFragment;
 
 /**
@@ -36,10 +37,10 @@ public class FragmentManager {
                     fragment = new SubjectFragment();
                     break;
                 case 4:
-                    fragment = new CategoryFragment();
+                    fragment = new RecommendFragment();
                     break;
                 case 5:
-                    fragment = new HomeFragment();
+                    fragment = new CategoryFragment();
                     break;
                 case 6:
                     fragment = new HomeFragment();

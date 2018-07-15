@@ -43,19 +43,43 @@ public abstract class BaseProtocol<T> {
             return t;
         }
         //2.从网络获取数据
-        return getDataFromNet(index, key);
+        return getDataFromNet(index, key, true);
+
+    }
+
+    /**
+     * 同步网络请求GET
+     *
+     * @param key      加密key
+     * @param isConcat 是否合并字符串
+     */
+    public T execute(int index, String key, boolean isConcat) throws IOException {
+        //1.首先从本地获取数据,没有就从网络获取
+        T t = getDataFromLocal(index, key);
+        if (t != null) {
+            return t;
+        }
+        //2.从网络获取数据
+        return getDataFromNet(index, key, isConcat);
 
     }
 
     /**
      * 从网络上获取数据
      */
-    private T getDataFromNet(int index, String key) throws IOException {
+    private T getDataFromNet(int index, String key, boolean isConcat) throws IOException {
         // 使用OkHttp
         OkHttpClient okHttpClient = new OkHttpClient();
+        String url;
+        // 根据传入的boolean值是否对index和getInterfacePath()进行合并
+        if (isConcat) {
+            url = getInterfacePath() + index;
+        } else {
+            url = getInterfacePath();
+        }
         // 定义请求对象
         Request request = new Request.Builder()
-                .url(getInterfacePath() + index)
+                .url(url)
                 .build();
         Call call = okHttpClient.newCall(request);
         // 请求网络
