@@ -1,6 +1,7 @@
 package com.googleplay.fragment.category;
 
 import android.graphics.Color;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -26,6 +27,7 @@ public class CategoryFragment extends BaseFragment {
 
 
     private List<CategoryBean> mCategory;
+    private SparseArray<View> mViewSparseArray = new SparseArray<>();
 
     @Override
     public LoadUI.LoadState onStartLoadDate() {
@@ -76,6 +78,36 @@ public class CategoryFragment extends BaseFragment {
                 return new CategoryItemNormalHolder();
             }
             return null;
+        }
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public View getView(int position, android.view.View convertView, ViewGroup parent) {
+            BaseHolder viewHolder;
+            View view;
+//            // 获取当前position的类型
+//            // 获取Holder
+//            viewHolder = getItemHolder(position);
+//            // 通过Holder获取View
+//            view = viewHolder.getRootView();
+
+            // 获取当前position的类型
+            if (mViewSparseArray.get(position) == null) {
+                // 获取Holder
+                viewHolder = getItemHolder(position);
+                // 通过Holder获取View
+                view = viewHolder.getRootView();
+                // 设置ViewHolder为view的tag
+                view.setTag(viewHolder);
+                mViewSparseArray.append(position, view);
+                view.setTag(viewHolder);
+            } else {
+                view = mViewSparseArray.get(position);
+                viewHolder = (BaseHolder) view.getTag();
+            }
+            // 传递数据给Holder的实现类
+            viewHolder.setData(mCategory.get(position));
+            return view;
         }
     }
 }
