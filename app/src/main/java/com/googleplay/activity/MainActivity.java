@@ -1,4 +1,4 @@
-package com.googleplay;
+package com.googleplay.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -14,6 +14,7 @@ import android.util.TypedValue;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.googleplay.R;
 import com.googleplay.base.BaseActivity;
 import com.googleplay.core.util.string.StringUtils;
 import com.googleplay.fragment.FragmentManager;

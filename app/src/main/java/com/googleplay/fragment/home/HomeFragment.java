@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.googleplay.base.BaseFragment;
-import com.googleplay.core.adapter.SuperAdapter;
 import com.googleplay.core.app.GooglePlay;
 import com.googleplay.core.holder.BaseHolder;
 import com.googleplay.fragment.home.bean.AppInfo;
@@ -33,7 +32,7 @@ public class HomeFragment extends BaseFragment {
         ListView listView = new ListView(GooglePlay.getApplicationContext());
         // TODO: 2018/7/3 这里写死了,不灵活,以后有时间看看怎么优化.
         listView.setBackgroundColor(Color.parseColor("#15000000"));
-        listView.setAdapter(new ListAdapter(mAppInfo));
+        listView.setAdapter(new ListAdapter(mAppInfo, listView));
         // 轮播图Holder
         PickHolder pickHolder = new PickHolder();
         View headView = pickHolder.getRootView();
@@ -74,10 +73,10 @@ public class HomeFragment extends BaseFragment {
         return initListView();
     }
 
-    private class ListAdapter extends SuperAdapter<AppInfo> {
+    private class ListAdapter extends AppListAdapter {
 
-        private ListAdapter(List<AppInfo> dates) {
-            super(dates);
+        private ListAdapter(List<AppInfo> dates, ListView listView) {
+            super(dates, listView);
         }
 
         @Override
